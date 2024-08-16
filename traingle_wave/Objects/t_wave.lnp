@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\t_wave.obj" 
+TO ".\Objects\t_wave" 
+PRINT(".\Listings\t_wave.m51")

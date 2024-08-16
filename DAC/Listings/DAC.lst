@@ -1,0 +1,53 @@
+C51 COMPILER V9.60.7.0   DAC                                                               05/02/2024 07:36:14 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DAC
+OBJECT MODULE PLACED IN .\Objects\DAC.obj
+COMPILER INVOKED BY: G:\C51\BIN\C51.EXE DAC.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\DAC.lst) TABS
+                    -(2) OBJECT(.\Objects\DAC.obj)
+
+line level    source
+
+   1          #include <REG51.H>
+   2          
+   3          sfr DAC_IN = 0xA0;
+   4          
+   5          void delay(unsigned char n)
+   6          {
+   7   1        unsigned char i,j;
+   8   1        for(i=0;i<n;i++)
+   9   1        {
+  10   2          for(j=0;j<1275;j++);
+  11   2        }
+  12   1      }
+  13          
+  14          int main()
+  15          {
+  16   1        unsigned char i;
+  17   1        unsigned char sine[]={  147 ,168  ,188  ,206  ,221  ,234  ,243  ,249  ,250  ,249  ,243  ,234  ,221  ,206, 188 ,168  ,14
+             -7  ,125  ,104  ,83 ,63 ,45 ,30 ,17 ,8  ,2  ,0  ,2  ,8  ,17 ,30 ,45 ,63,  83  ,104  ,125};
+  18   1        while(1)
+  19   1        {
+  20   2        for(i=0;i<36;i++)
+  21   2            {
+  22   3              DAC_IN=sine[i];
+  23   3              delay(0);
+  24   3            }
+  25   2          }
+  26   1        return 0;
+  27   1        }
+*** WARNING C294 IN LINE 26 OF DAC.c: unreachable code
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     65    ----
+   CONSTANT SIZE    =     36    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      36
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

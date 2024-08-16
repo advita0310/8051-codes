@@ -1,0 +1,72 @@
+C51 COMPILER V9.60.7.0   EN4                                                               05/01/2024 13:26:58 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EN4
+OBJECT MODULE PLACED IN .\Objects\EN4.obj
+COMPILER INVOKED BY: G:\C51\BIN\C51.EXE EN4.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\EN4.lst) TABS
+                    -(2) OBJECT(.\Objects\EN4.obj)
+
+line level    source
+
+   1          //EN4
+   2          //BATCH
+   3          //QUESTION
+   4          //Generate square wave on port pin P1.0 using External Interrupt 0 and display numbers
+   5          //from 0 to 9 on CCSSD using External Interrupt 1 (both are level sensitive). Assign
+   6          //highest priority to External Interrupt 1.
+   7          //EXPECTED External Interrupt0: - square wave on P1.0 – TASK1
+   8          //External Interrupt1: - 0 to 9 on CCSSD – TASK2
+   9          
+  10          #include <REG51.H>
+  11          
+  12          
+  13          sbit SQR = P1^0;
+  14          void delay (int t)
+  15          {
+  16   1        unsigned char i;
+  17   1        unsigned char j;
+  18   1        for(i=0;i<t;i++)
+  19   1        {
+  20   2          for(j=0;j<155;j++);
+  21   2        }
+  22   1      }
+  23           void ex0_isr() interrupt 0
+  24             {
+  25   1           SQR=~SQR;
+  26   1      }
+  27          
+  28           void ex1_isr() interrupt 2
+  29          {
+  30   1        unsigned char i;
+  31   1        unsigned char CCSSD[]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0X07,0X7F,0x6F};
+  32   1        for(i=0;i<10;i++)
+  33   1          {
+  34   2            P2=CCSSD[i];
+  35   2            delay(10);
+  36   2          }
+  37   1         
+  38   1      }
+  39          
+  40          int main()
+  41          {
+  42   1        IE = 0x85;
+  43   1        IP = 0x04;
+  44   1        while(1);
+  45   1      
+  46   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    130    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      10
+C51 COMPILER V9.60.7.0   EN4                                                               05/01/2024 13:26:58 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

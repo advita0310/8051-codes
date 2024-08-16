@@ -1,0 +1,75 @@
+C51 COMPILER V9.60.7.0   EN1                                                               05/01/2024 14:25:02 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EN1
+OBJECT MODULE PLACED IN .\Objects\EN1.obj
+COMPILER INVOKED BY: G:\C51\BIN\C51.EXE EN1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\EN1.lst) TABS
+                    -(2) OBJECT(.\Objects\EN1.obj)
+
+line level    source
+
+   1          //EN1
+   2          //BATCH
+   3          //QUESTION
+   4          //Operate DC Motor in any direction when External Interrupt 1 occurs and display
+   5          //“HELP” on CCSSD Multiplexed Display when External Interrupt 0 Occurs. Configure
+   6          //both interrupts as level sensitive interrupts and assign highest priority to External
+   7          //Interrupt 1.
+   8          //EXPECTED External Interrupt 0: - DC motor should be ON – TASK1
+   9          //External Interrupt 1: - HELP should be display – TASK2
+  10          
+  11          #include <REG51.H>
+  12          sbit DCM = P3^0;
+  13          void delay(int t)
+  14          {
+  15   1        unsigned char i,j;
+  16   1        for(i=0;i<t;i++)
+  17   1        {
+  18   2          for(j=0;j<255;j++);
+  19   2        }
+  20   1      }
+  21            void ex0_isr() interrupt 0
+  22           {
+  23   1        DCM = 1;
+  24   1       }
+  25          
+  26          void ex1_isr() interrupt 2
+  27          {
+  28   1        unsigned char i;
+  29   1      unsigned char HELP[] =  {0X76, 0X79, 0X38, 0X73};
+  30   1      unsigned char DATA[] = {0X0E,0X0D,0X0B,0X07};
+  31   1      while(1)
+  32   1      {
+  33   2        for(i=0;i<4;i++)
+  34   2        {
+  35   3          P1=DATA[i];
+  36   3          P2=HELP[i];
+  37   3          delay(10);
+  38   3        }
+  39   2      }
+  40   1      }
+  41          
+  42          int main()
+  43          {
+  44   1      
+  45   1        IP=0x04;
+  46   1        IE=0x86;
+  47   1        while(1);
+  48   1      
+  49   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    131    ----
+   CONSTANT SIZE    =      8    ----
+C51 COMPILER V9.60.7.0   EN1                                                               05/01/2024 14:25:02 PAGE 2   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
